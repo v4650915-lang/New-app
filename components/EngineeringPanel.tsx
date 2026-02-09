@@ -95,7 +95,7 @@ const EngineeringPanel: React.FC = () => {
               <div className="bg-black/50 border border-zinc-600 p-4 mb-6 rounded">
                 <p className="text-white font-mono text-lg mb-2">РАЗДЕЛЫ В РАЗРАБОТКЕ</p>
                 <p className="text-zinc-400 font-mono text-xs">ПОЯВИТСЯ ПОСЛЕ</p>
-                <p className="text-green-400 font-mono text-xl font-bold mt-1 tracking-widest">08.02.26</p>
+                <p className="text-green-400 font-mono text-xl font-bold mt-1 tracking-widest">14.02.2026</p>
               </div>
 
               <IndustrialButton
