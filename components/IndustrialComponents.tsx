@@ -16,13 +16,13 @@ interface IndustrialButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   active?: boolean;
 }
 
-export const IndustrialButton: React.FC<IndustrialButtonProps> = ({ 
-  variant = 'primary', 
-  label, 
+export const IndustrialButton: React.FC<IndustrialButtonProps> = ({
+  variant = 'primary',
+  label,
   subLabel,
   active = false,
   className,
-  ...props 
+  ...props
 }) => {
   let bgClass = "bg-zinc-800 text-zinc-100 border-2 border-zinc-600"; // default/secondary - теперь темнее
   if (variant === 'primary') bgClass = "bg-zinc-700 text-white border-2 border-zinc-500";
@@ -33,24 +33,24 @@ export const IndustrialButton: React.FC<IndustrialButtonProps> = ({
   return (
     <button
       className={`
-        relative overflow-hidden rounded-sm p-2 sm:p-3 flex flex-col items-center justify-center transition-all duration-150
-        min-h-[44px] touch-manipulation
+        relative rounded-sm p-1 sm:p-2 md:p-3 flex flex-col items-center justify-center transition-all duration-150
+        min-h-[36px] sm:min-h-[44px] touch-manipulation text-center
         ${active ? 'shadow-btn-pressed translate-y-0.5' : 'shadow-lg hover:bg-zinc-700 hover:border-zinc-500 active:shadow-btn-pressed active:translate-y-0.5'}
         ${bgClass}
         ${className}
       `}
       {...props}
     >
-      <span className="text-base sm:text-lg md:text-xl font-mono leading-none font-bold">{label}</span>
-      {subLabel && <span className="text-[9px] sm:text-[10px] opacity-80 font-sans leading-none mt-0.5 sm:mt-1 uppercase font-semibold">{subLabel}</span>}
+      <span className="text-[10px] sm:text-sm md:text-xl font-mono leading-tight font-bold tracking-tighter sm:tracking-normal whitespace-nowrap">{label}</span>
+      {subLabel && <span className="text-[7px] sm:text-[10px] opacity-80 font-sans leading-tight mt-0.5 uppercase font-semibold tracking-tighter sm:tracking-normal whitespace-nowrap">{subLabel}</span>}
     </button>
   );
 };
 
 // LED Indicator
 export const LED: React.FC<{ on: boolean; color?: 'red' | 'green'; label?: string }> = ({ on, color = 'green', label }) => {
-  const colorClass = color === 'red' 
-    ? (on ? 'bg-red-500 shadow-[0_0_8px_2px_rgba(255,0,0,0.8)]' : 'bg-red-900') 
+  const colorClass = color === 'red'
+    ? (on ? 'bg-red-500 shadow-[0_0_8px_2px_rgba(255,0,0,0.8)]' : 'bg-red-900')
     : (on ? 'bg-green-400 shadow-[0_0_8px_2px_rgba(0,255,0,0.8)]' : 'bg-green-900');
 
   return (
@@ -64,13 +64,12 @@ export const LED: React.FC<{ on: boolean; color?: 'red' | 'green'; label?: strin
 // Toggle Switch
 export const ToggleSwitch: React.FC<{ checked: boolean; onChange: () => void; label: string }> = ({ checked, onChange, label }) => (
   <div className="flex flex-col items-center">
-    <div 
+    <div
       onClick={onChange}
-      className={`cursor-pointer w-10 h-16 rounded-md border-2 relative shadow-machine-inset transition-all duration-200 touch-manipulation min-h-[44px] ${
-        checked 
-          ? 'bg-zinc-700 border-zinc-500 shadow-[0_0_10px_rgba(255,236,0,0.3)]' 
-          : 'bg-zinc-800 border-zinc-600'
-      }`}
+      className={`cursor-pointer w-10 h-16 rounded-md border-2 relative shadow-machine-inset transition-all duration-200 touch-manipulation min-h-[44px] ${checked
+        ? 'bg-zinc-700 border-zinc-500 shadow-[0_0_10px_rgba(255,236,0,0.3)]'
+        : 'bg-zinc-800 border-zinc-600'
+        }`}
     >
       <div className={`
         absolute left-1 right-1 h-6 bg-gradient-to-b from-zinc-300 to-zinc-500 border border-zinc-900 shadow-md transition-all duration-200
@@ -84,9 +83,8 @@ export const ToggleSwitch: React.FC<{ checked: boolean; onChange: () => void; la
         <div className="absolute inset-0 bg-fanuc-yellow/10 rounded-md pointer-events-none"></div>
       )}
     </div>
-    <span className={`text-[10px] font-bold mt-1 uppercase transition-colors duration-200 ${
-      checked ? 'text-fanuc-yellow font-black' : 'text-zinc-400'
-    }`}>{label}</span>
+    <span className={`text-[10px] font-bold mt-1 uppercase transition-colors duration-200 ${checked ? 'text-fanuc-yellow font-black' : 'text-zinc-400'
+      }`}>{label}</span>
   </div>
 );
 

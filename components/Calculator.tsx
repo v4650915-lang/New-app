@@ -16,7 +16,7 @@ const Calculator: React.FC = () => {
   const [lastOperator, setLastOperator] = useState<string | null>(null);
   const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [hint, setHint] = useState('ГОТОВ К РАБОТЕ');
-  
+
   // New DMS State
   const [dmsState, setDmsState] = useState<DmsState>({
     active: false,
@@ -49,7 +49,7 @@ const Calculator: React.FC = () => {
       const currentVal = prev[field];
       // Prevent multiple decimals
       if (digit === '.' && currentVal.includes('.')) return prev;
-      
+
       return {
         ...prev,
         [field]: currentVal + digit
@@ -114,7 +114,7 @@ const Calculator: React.FC = () => {
 
   const trig = (func: 'sin' | 'cos' | 'tan') => {
     if (dmsState.active) return;
-    
+
     let val = parseFloat(display);
     if (isNaN(val)) return;
 
@@ -125,10 +125,10 @@ const Calculator: React.FC = () => {
     if (func === 'sin') res = Math.sin(val);
     if (func === 'cos') res = Math.cos(val);
     if (func === 'tan') res = Math.tan(val);
-    
+
     // Fix precision issues
     res = Math.round(res * 100000000) / 100000000;
-    
+
     setDisplay(String(res));
     setWaitingForOperand(true);
     setHint(`${func.toUpperCase()}(${isRad ? 'RAD' : 'DEG'})`);
@@ -174,7 +174,7 @@ const Calculator: React.FC = () => {
       const m = parseFloat(dmsState.min || '0');
       const s = parseFloat(dmsState.sec || '0');
       const result = d + (m / 60) + (s / 3600);
-      
+
       setDisplay(String(result));
       setDmsState({ active: false, step: 'deg', deg: '', min: '', sec: '' });
       setWaitingForOperand(true); // Treat as a result, ready for next op
@@ -183,51 +183,51 @@ const Calculator: React.FC = () => {
   };
 
   const decToDms = () => {
-     if (dmsState.active) return;
+    if (dmsState.active) return;
 
-     const val = parseFloat(display);
-     if (isNaN(val)) return;
+    const val = parseFloat(display);
+    if (isNaN(val)) return;
 
-     const d = Math.floor(val);
-     const minFloat = (val - d) * 60;
-     const m = Math.floor(minFloat);
-     const s = (minFloat - m) * 60;
-     
-     // Display formatted string directly to display, but mark waiting so next number clears it
-     const formatted = `${d}° ${m}' ${s.toFixed(2)}"`;
-     setDisplay(formatted);
-     setWaitingForOperand(true);
-     setHint('ДЕС -> ГРАД');
+    const d = Math.floor(val);
+    const minFloat = (val - d) * 60;
+    const m = Math.floor(minFloat);
+    const s = (minFloat - m) * 60;
+
+    // Display formatted string directly to display, but mark waiting so next number clears it
+    const formatted = `${d}° ${m}' ${s.toFixed(2)}"`;
+    setDisplay(formatted);
+    setWaitingForOperand(true);
+    setHint('ДЕС -> ГРАД');
   };
 
   return (
     <div className="flex flex-col h-full">
       {/* VFD Display */}
-      <div className="mb-6 bg-black border-4 border-zinc-600 rounded-sm p-4 relative shadow-machine-inset overflow-hidden h-28 flex flex-col justify-between">
+      <div className="mb-3 sm:mb-6 bg-black border-2 sm:border-4 border-zinc-600 rounded-sm p-2 sm:p-4 relative shadow-machine-inset overflow-hidden h-24 sm:h-28 flex flex-col justify-between">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 pointer-events-none bg-[length:100%_4px,6px_100%]"></div>
-        
+
         {/* Main Readout Area */}
         <div className="flex-1 flex items-center justify-end z-0 relative">
-            {dmsState.active ? (
-              <div className="flex justify-end gap-4 w-full font-mono text-2xl tracking-wider">
-                <div className={`flex flex-col items-end ${dmsState.step === 'deg' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
-                  <span>{dmsState.deg || '0'}</span>
-                  <span className="text-xs">DEG</span>
-                </div>
-                <div className={`flex flex-col items-end ${dmsState.step === 'min' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
-                  <span>{dmsState.min || '0'}</span>
-                  <span className="text-xs">MIN</span>
-                </div>
-                <div className={`flex flex-col items-end ${dmsState.step === 'sec' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
-                  <span>{dmsState.sec || '0'}</span>
-                  <span className="text-xs">SEC</span>
-                </div>
+          {dmsState.active ? (
+            <div className="flex justify-end gap-4 w-full font-mono text-2xl tracking-wider">
+              <div className={`flex flex-col items-end ${dmsState.step === 'deg' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
+                <span>{dmsState.deg || '0'}</span>
+                <span className="text-xs">DEG</span>
               </div>
-            ) : (
-              <div className="font-mono text-4xl text-cyan-400 tracking-widest drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] break-all text-right">
-                {display}
+              <div className={`flex flex-col items-end ${dmsState.step === 'min' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
+                <span>{dmsState.min || '0'}</span>
+                <span className="text-xs">MIN</span>
               </div>
-            )}
+              <div className={`flex flex-col items-end ${dmsState.step === 'sec' ? 'text-fanuc-yellow drop-shadow-[0_0_5px_rgba(255,236,0,0.8)]' : 'text-cyan-800'}`}>
+                <span>{dmsState.sec || '0'}</span>
+                <span className="text-xs">SEC</span>
+              </div>
+            </div>
+          ) : (
+            <div className="font-mono text-2xl sm:text-4xl text-cyan-400 tracking-widest drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] break-all text-right">
+              {display}
+            </div>
+          )}
         </div>
 
         {/* Status Line */}
@@ -238,21 +238,21 @@ const Calculator: React.FC = () => {
       </div>
 
       {/* Keypad */}
-      <div className="grid grid-cols-5 gap-3 bg-zinc-300 p-4 rounded border border-zinc-400 shadow-inner">
+      <div className="grid grid-cols-5 gap-1.5 sm:gap-2 md:gap-3 bg-zinc-300 p-2 sm:p-3 md:p-4 rounded border border-zinc-400 shadow-inner">
         {/* Row 1: Scientific & Modes */}
         <IndustrialButton label="RAD" active={isRad} onClick={() => setIsRad(!isRad)} subLabel="РЕЖИМ" className="bg-zinc-400" />
-        <IndustrialButton 
-          label="DMS IN" 
+        <IndustrialButton
+          label="DMS IN"
           active={dmsState.active}
-          onClick={startDmsInput} 
-          subLabel="ВВОД ГМС" 
-          className="col-span-2 bg-zinc-400" 
+          onClick={startDmsInput}
+          subLabel="ВВОД ГМС"
+          className="col-span-2 bg-zinc-400"
         />
-        <IndustrialButton 
-          label="TO DMS" 
-          onClick={decToDms} 
-          subLabel="ПРОСМОТР" 
-          className="col-span-2 bg-zinc-400" 
+        <IndustrialButton
+          label="TO DMS"
+          onClick={decToDms}
+          subLabel="ПРОСМОТР"
+          className="col-span-2 bg-zinc-400"
         />
 
         {/* Row 2: Trig */}
@@ -281,17 +281,17 @@ const Calculator: React.FC = () => {
         <IndustrialButton label="2" onClick={() => inputDigit('2')} />
         <IndustrialButton label="3" onClick={() => inputDigit('3')} />
         <IndustrialButton label="." onClick={() => inputDigit('.')} />
-        <IndustrialButton 
-          label={dmsState.active ? "ENTER" : "="} 
-          variant="action" 
-          onClick={handleEqual} 
+        <IndustrialButton
+          label={dmsState.active ? "ENTER" : "="}
+          variant="action"
+          onClick={handleEqual}
           className={`row-span-2 h-full ${dmsState.active ? 'bg-orange-500 text-black' : ''}`}
           subLabel={dmsState.active ? "ДАЛЕЕ" : ""}
         />
-        
+
         {/* Row 6 (Zero spans) */}
-       {/* Row 6: Обновленный ряд с корнем */}
-       <IndustrialButton label="0" onClick={() => inputDigit('0')} />
+        {/* Row 6: Обновленный ряд с корнем */}
+        <IndustrialButton label="0" onClick={() => inputDigit('0')} />
         <IndustrialButton label="√" onClick={sqrt} className="bg-zinc-400 text-black" />
         <IndustrialButton label="π" onClick={() => inputDigit(String(Math.PI))} />
         <IndustrialButton label="e" onClick={() => inputDigit(String(Math.E))} />
