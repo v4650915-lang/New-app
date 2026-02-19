@@ -4,9 +4,11 @@ import EngineeringPanel from './components/EngineeringPanel';
 import GCodeFrame from './components/GCodeFrame';
 import { ScrewHead, ToggleSwitch, InfoPlate, LED } from './components/IndustrialComponents';
 import { AppMode } from './types';
+import Simulator from './components/Simulator';
 
 export default function App() {
   const [activeMode, setActiveMode] = useState<AppMode>(AppMode.CALCULATOR);
+  const [showSimulator, setShowSimulator] = useState(false);
 
   // Handler for engineering module toggle
   const toggleEngineering = () => {
@@ -23,6 +25,13 @@ export default function App() {
 
       {/* Main CNC Chassis */}
       <div className="bg-fanuc-yellow w-full max-w-5xl rounded-lg p-2 shadow-machine border-t border-white/20 relative">
+
+        {/* Fullscreen Simulator Overlay */}
+        {showSimulator && (
+          <div className="fixed inset-0 z-50 bg-black">
+            <Simulator onBack={() => setShowSimulator(false)} />
+          </div>
+        )}
 
         {/* Chassis Screws */}
         <ScrewHead className="absolute top-2 left-2" />
@@ -89,7 +98,9 @@ export default function App() {
             <div className="w-full relative">
               {/* This container manages the switching with a slight fade effect could be added here */}
               {activeMode === AppMode.CALCULATOR && <Calculator />}
-              {activeMode === AppMode.ENGINEERING && <EngineeringPanel />}
+              {activeMode === AppMode.ENGINEERING && (
+                <EngineeringPanel openSimulator={() => setShowSimulator(true)} />
+              )}
               {activeMode === AppMode.G_CODE && <GCodeFrame />}
             </div>
           </div>
