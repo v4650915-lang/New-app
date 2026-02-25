@@ -7,9 +7,10 @@ import RightTriangleApp from './RightTriangleApp';
 
 interface EngineeringPanelProps {
   openSimulator: () => void;
+  openSphere: () => void;
 }
 
-const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator }) => {
+const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, openSphere }) => {
   const [showG121, setShowG121] = useState(false);
   const [showTolerances, setShowTolerances] = useState(false);
   const [showTriangle, setShowTriangle] = useState(false);
@@ -35,6 +36,10 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator }) =>
 
   const handleSimulator = () => {
     openSimulator();
+  };
+
+  const handleSphere = () => {
+    openSphere();
   };
 
   // Если показываем допуски
@@ -113,6 +118,13 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator }) =>
             label="СИМУЛЯТОР"
             subLabel="G-CODE"
             onClick={handleSimulator}
+            className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
+          />
+
+          <IndustrialButton
+            label="СФЕРА"
+            subLabel=""
+            onClick={handleSphere}
             className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
           />
         </div>

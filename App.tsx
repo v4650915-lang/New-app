@@ -5,10 +5,12 @@ import GCodeFrame from './components/GCodeFrame';
 import { ScrewHead, ToggleSwitch, InfoPlate, LED } from './components/IndustrialComponents';
 import { AppMode } from './types';
 import Simulator from './components/Simulator';
+import SphereApp from './components/SphereApp';
 
 export default function App() {
   const [activeMode, setActiveMode] = useState<AppMode>(AppMode.CALCULATOR);
   const [showSimulator, setShowSimulator] = useState(false);
+  const [showSphere, setShowSphere] = useState(false);
 
   // Handler for engineering module toggle
   const toggleEngineering = () => {
@@ -30,6 +32,13 @@ export default function App() {
         {showSimulator && (
           <div className="fixed inset-0 z-50 bg-black">
             <Simulator onBack={() => setShowSimulator(false)} />
+          </div>
+        )}
+
+        {/* Fullscreen Sphere Overlay */}
+        {showSphere && (
+          <div className="fixed inset-0 z-50 bg-zinc-900 border-2 border-zinc-700 shadow-inner overflow-hidden flex flex-col p-4 animate-in fade-in duration-200">
+            <SphereApp onBack={() => setShowSphere(false)} />
           </div>
         )}
 
@@ -99,7 +108,10 @@ export default function App() {
               {/* This container manages the switching with a slight fade effect could be added here */}
               {activeMode === AppMode.CALCULATOR && <Calculator />}
               {activeMode === AppMode.ENGINEERING && (
-                <EngineeringPanel openSimulator={() => setShowSimulator(true)} />
+                <EngineeringPanel
+                  openSimulator={() => setShowSimulator(true)}
+                  openSphere={() => setShowSphere(true)}
+                />
               )}
               {activeMode === AppMode.G_CODE && <GCodeFrame />}
             </div>
