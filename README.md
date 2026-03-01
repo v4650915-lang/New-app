@@ -2,19 +2,38 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# FANUC G-Code Generator
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1gFVrGARlkp-k8N0Gk4ZzCfRXQgzaveB9
+Инженерный комплекс для генерации G-кода на станках с ЧПУ Fanuc.
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
-
 
 1. Install dependencies:
    `npm install`
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+---
+
+## Changelog
+
+### 2026-03-01 — Вкладка G12.1: Лыски и исправления полей ввода
+
+#### Исправления полей ввода (все вкладки)
+- `GroovesApp.tsx` — все числовые поля переведены на строковое состояние: теперь можно полностью стереть значение, при потере фокуса пустое поле сбрасывается к дефолту
+- `G12Polyhedron.tsx` — аналогичное исправление для всех 9 полей вкладки G12.1
+
+#### Вкладка G12.1 — Лыски (N=2)
+- Добавлено новое поле **Диаметр заготовки ⌀** (отображается только для лысок)
+- Поле R (скругление) скрыто для лысок как неактуальное
+- Реализована правильная стратегия фрезерования лысок:
+  - `X = S + D_фрезы` — X-позиция во время реза
+  - `C = sqrt((R_заг + r_фр)² − (S/2 + r_фр)²)` — точки входа/выхода
+  - G12.1 выключается между проходами лыски 1 и 2 (через `G13.1 POLAR-OFF`)
+- Исправлен заголовок G-кода: убрано дублирование `D_FR`
+- Исправлены двойные точки в G-коде (`X58..` → `X58.`)
+- Исправлена опечатка: `G13.1 (POLAR-ON)` → `G13.1 (POLAR-OFF)` в конце программы
+- Анимация лысок замедлена до скорости многогранников, обновлена визуализация (круг с боковыми лысками)
