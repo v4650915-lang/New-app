@@ -6,11 +6,13 @@ import { ScrewHead, ToggleSwitch, InfoPlate, LED } from './components/Industrial
 import { AppMode } from './types';
 import Simulator from './components/Simulator';
 import SphereApp from './components/SphereApp';
+import GroovesApp from './components/GroovesApp';
 
 export default function App() {
   const [activeMode, setActiveMode] = useState<AppMode>(AppMode.CALCULATOR);
   const [showSimulator, setShowSimulator] = useState(false);
   const [showSphere, setShowSphere] = useState(false);
+  const [showGrooves, setShowGrooves] = useState(false);
 
   // Handler for engineering module toggle
   const toggleEngineering = () => {
@@ -39,6 +41,13 @@ export default function App() {
         {showSphere && (
           <div className="fixed inset-0 z-50 bg-zinc-900 border-2 border-zinc-700 shadow-inner overflow-hidden flex flex-col p-4 animate-in fade-in duration-200">
             <SphereApp onBack={() => setShowSphere(false)} />
+          </div>
+        )}
+
+        {/* Fullscreen Grooves Overlay */}
+        {showGrooves && (
+          <div className="fixed inset-0 z-50 bg-white border-2 border-zinc-700 shadow-inner overflow-hidden flex flex-col p-4 animate-in fade-in duration-200">
+            <GroovesApp onBack={() => setShowGrooves(false)} />
           </div>
         )}
 
@@ -111,6 +120,7 @@ export default function App() {
                 <EngineeringPanel
                   openSimulator={() => setShowSimulator(true)}
                   openSphere={() => setShowSphere(true)}
+                  openGrooves={() => setShowGrooves(true)}
                 />
               )}
               {activeMode === AppMode.G_CODE && <GCodeFrame />}

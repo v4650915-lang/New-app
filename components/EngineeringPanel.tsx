@@ -8,13 +8,13 @@ import RightTriangleApp from './RightTriangleApp';
 interface EngineeringPanelProps {
   openSimulator: () => void;
   openSphere: () => void;
+  openGrooves: () => void;
 }
 
-const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, openSphere }) => {
+const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, openSphere, openGrooves }) => {
   const [showG121, setShowG121] = useState(false);
   const [showTolerances, setShowTolerances] = useState(false);
   const [showTriangle, setShowTriangle] = useState(false);
-
 
   const handleG121 = () => {
     setShowG121(true);
@@ -40,6 +40,10 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, open
 
   const handleSphere = () => {
     openSphere();
+  };
+
+  const handleGrooves = () => {
+    openGrooves();
   };
 
   // Если показываем допуски
@@ -125,6 +129,13 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, open
             label="СФЕРА"
             subLabel=""
             onClick={handleSphere}
+            className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
+          />
+
+          <IndustrialButton
+            label="КАНАВКИ"
+            subLabel=""
+            onClick={handleGrooves}
             className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
           />
         </div>
