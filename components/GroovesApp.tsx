@@ -13,23 +13,23 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
     const [edgeOuter, setEdgeOuter] = useState<EdgeOuter>('left');
     const [edgeFace, setEdgeFace] = useState<EdgeFace>('top');
 
-    // Данные формы наружной канавки
-    const [outerMater, setOuterMater] = useState(90); // Vc
-    const [outerK, setOuterK] = useState(3);
-    const [outerF, setOuterF] = useState(0.035);
-    const [outerX, setOuterX] = useState(50);
-    const [outerZ, setOuterZ] = useState(-30);
-    const [outerL, setOuterL] = useState(10);
-    const [outerD, setOuterD] = useState(40);
+    // Данные формы наружной канавки (строки для свободного редактирования)
+    const [outerMater, setOuterMater] = useState(90); // Vc — число, select
+    const [outerK, setOuterK] = useState('3');
+    const [outerF, setOuterF] = useState('0.035');
+    const [outerX, setOuterX] = useState('50');
+    const [outerZ, setOuterZ] = useState('-30');
+    const [outerL, setOuterL] = useState('10');
+    const [outerD, setOuterD] = useState('40');
 
-    // Данные формы торцевой канавки
+    // Данные формы торцевой канавки (строки для свободного редактирования)
     const [faceMater, setFaceMater] = useState(90);
-    const [faceK, setFaceK] = useState(3);
-    const [faceF, setFaceF] = useState(0.035);
-    const [faceX, setFaceX] = useState(50);
-    const [faceZ, setFaceZ] = useState(2);
-    const [faceM, setFaceM] = useState(10);
-    const [faceL, setFaceL] = useState(5);
+    const [faceK, setFaceK] = useState('3');
+    const [faceF, setFaceF] = useState('0.035');
+    const [faceX, setFaceX] = useState('50');
+    const [faceZ, setFaceZ] = useState('2');
+    const [faceM, setFaceM] = useState('10');
+    const [faceL, setFaceL] = useState('5');
 
     const [gcode, setGcode] = useState<React.ReactNode | null>(null);
     const [copied, setCopied] = useState(false);
@@ -60,20 +60,26 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
         setTimeout(() => setPulseFace(false), 400);
     };
 
+    // Хелпер: при потере фокуса пустая строка → '0'
+    const handleBlur = (val: string, setter: (v: string) => void) => {
+        if (val.trim() === '' || val === '-') setter('0');
+    };
+
     // ----- Расчет Наружной Канавки (G75) -----
     const calcOuter = () => {
-        if ([outerK, outerX, outerZ, outerL, outerD, outerF].some(isNaN)) {
+        const nums = [outerK, outerX, outerZ, outerL, outerD, outerF].map(Number);
+        if (nums.some(isNaN)) {
             alert('Заполните все поля!');
             return;
         }
 
         const Vc = outerMater;
-        const K = outerK;
-        const X = outerX;
-        const Z = outerZ;
-        const L = outerL;
-        const D = outerD;
-        const F = outerF;
+        const K = Number(outerK);
+        const X = Number(outerX);
+        const Z = Number(outerZ);
+        const L = Number(outerL);
+        const D = Number(outerD);
+        const F = Number(outerF);
 
         const S = Math.round((Vc * 1000) / (D * Math.PI));
 
@@ -121,18 +127,19 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
 
     // ----- Расчет Торцевой Канавки (G74) -----
     const calcFace = () => {
-        if ([faceK, faceX, faceZ, faceL, faceM, faceF].some(isNaN)) {
+        const nums = [faceK, faceX, faceZ, faceL, faceM, faceF].map(Number);
+        if (nums.some(isNaN)) {
             alert('Заполните все поля!');
             return;
         }
 
         const Vc = faceMater;
-        const K = faceK;
-        const X = faceX;
-        const Z = faceZ;
-        const L = faceL;
-        const M = faceM;
-        const F = faceF;
+        const K = Number(faceK);
+        const X = Number(faceX);
+        const Z = Number(faceZ);
+        const L = Number(faceL);
+        const M = Number(faceM);
+        const F = Number(faceF);
 
         const Dwork = X - L * 2;
         const S = Math.round((Vc * 1000) / (Dwork * Math.PI));
@@ -182,7 +189,7 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
         });
     };
 
-    const outerDInnerPreview = Math.round((faceX - faceL * 2) * 1000) / 1000;
+    const outerDInnerPreview = Math.round((Number(faceX) - Number(faceL) * 2) * 1000) / 1000;
 
     return (
         <div className="flex flex-col h-full bg-white text-zinc-800 font-sans p-4 overflow-y-auto">
@@ -408,27 +415,27 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">K</span> Ширина резца (мм)</label>
-                                            <input type="number" step="0.5" min="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerK} onChange={e => setOuterK(Number(e.target.value))} />
+                                            <input type="number" step="0.5" min="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerK} onChange={e => setOuterK(e.target.value)} onBlur={() => handleBlur(outerK, setOuterK)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">F</span> Подача (мм/об)</label>
-                                            <input type="number" step="0.005" min="0.01" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerF} onChange={e => setOuterF(Number(e.target.value))} />
+                                            <input type="number" step="0.005" min="0.01" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerF} onChange={e => setOuterF(e.target.value)} onBlur={() => handleBlur(outerF, setOuterF)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">X</span> X start point</label>
-                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerX} onChange={e => setOuterX(Number(e.target.value))} />
+                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerX} onChange={e => setOuterX(e.target.value)} onBlur={() => handleBlur(outerX, setOuterX)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">Z</span> Z start point</label>
-                                            <input type="number" step="0.1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerZ} onChange={e => setOuterZ(Number(e.target.value))} />
+                                            <input type="number" step="0.1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerZ} onChange={e => setOuterZ(e.target.value)} onBlur={() => handleBlur(outerZ, setOuterZ)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">L</span> Глубина паза</label>
-                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerL} onChange={e => setOuterL(Number(e.target.value))} />
+                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerL} onChange={e => setOuterL(e.target.value)} onBlur={() => handleBlur(outerL, setOuterL)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">D</span> Диаметр дна</label>
-                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerD} onChange={e => setOuterD(Number(e.target.value))} />
+                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={outerD} onChange={e => setOuterD(e.target.value)} onBlur={() => handleBlur(outerD, setOuterD)} />
                                         </div>
                                     </div>
                                 </div>
@@ -461,27 +468,27 @@ export default function GroovesApp({ onBack }: GroovesAppProps) {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">K</span> Ширина резца (мм)</label>
-                                            <input type="number" step="0.5" min="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceK} onChange={e => setFaceK(Number(e.target.value))} />
+                                            <input type="number" step="0.5" min="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceK} onChange={e => setFaceK(e.target.value)} onBlur={() => handleBlur(faceK, setFaceK)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">F</span> Подача (мм/об)</label>
-                                            <input type="number" step="0.005" min="0.01" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceF} onChange={e => setFaceF(Number(e.target.value))} />
+                                            <input type="number" step="0.005" min="0.01" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceF} onChange={e => setFaceF(e.target.value)} onBlur={() => handleBlur(faceF, setFaceF)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">X</span> X start (外D)</label>
-                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceX} onChange={e => setFaceX(Number(e.target.value))} />
+                                            <input type="number" step="1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceX} onChange={e => setFaceX(e.target.value)} onBlur={() => handleBlur(faceX, setFaceX)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">Z</span> Z start point</label>
-                                            <input type="number" step="0.1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceZ} onChange={e => setFaceZ(Number(e.target.value))} />
+                                            <input type="number" step="0.1" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceZ} onChange={e => setFaceZ(e.target.value)} onBlur={() => handleBlur(faceZ, setFaceZ)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">M</span> Глубина паза (Z)</label>
-                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceM} onChange={e => setFaceM(Number(e.target.value))} />
+                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceM} onChange={e => setFaceM(e.target.value)} onBlur={() => handleBlur(faceM, setFaceM)} />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5"><span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px]">L</span> Ширина паза (X)</label>
-                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceL} onChange={e => setFaceL(Number(e.target.value))} />
+                                            <input type="number" step="0.5" className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:border-blue-500 outline-none" value={faceL} onChange={e => setFaceL(e.target.value)} onBlur={() => handleBlur(faceL, setFaceL)} />
                                         </div>
                                     </div>
                                     <div className="bg-blue-50 border border-blue-100 rounded-lg py-2 px-3 text-xs text-blue-800">
