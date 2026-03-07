@@ -5,7 +5,7 @@ interface ShkivAppProps {
 }
 
 export default function ShkivApp({ onBack }: ShkivAppProps) {
-    const [mater, setMater] = useState(120);
+    const [mater, setMater] = useState(55);
     const [a, setA] = useState('90'); // D1
     const [b2, setB2] = useState('0'); // D2
     const [hh, setHh] = useState('15'); // H
