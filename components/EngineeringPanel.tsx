@@ -9,9 +9,10 @@ interface EngineeringPanelProps {
   openSimulator: () => void;
   openSphere: () => void;
   openGrooves: () => void;
+  openShkiv: () => void;
 }
 
-const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, openSphere, openGrooves }) => {
+const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, openSphere, openGrooves, openShkiv }) => {
   const [showG121, setShowG121] = useState(false);
   const [showTolerances, setShowTolerances] = useState(false);
   const [showTriangle, setShowTriangle] = useState(false);
@@ -44,6 +45,10 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, open
 
   const handleGrooves = () => {
     openGrooves();
+  };
+
+  const handleShkiv = () => {
+    openShkiv();
   };
 
   // Если показываем допуски
@@ -136,6 +141,13 @@ const EngineeringPanel: React.FC<EngineeringPanelProps> = ({ openSimulator, open
             label="КАНАВКИ"
             subLabel=""
             onClick={handleGrooves}
+            className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
+          />
+
+          <IndustrialButton
+            label="ШКИВ"
+            subLabel="(РУЧЕЙ)"
+            onClick={handleShkiv}
             className="bg-zinc-800 text-zinc-100 border-2 border-zinc-600 h-20 text-xl font-bold shadow-lg hover:bg-zinc-700 hover:border-fanuc-yellow hover:shadow-[0_0_12px_rgba(255,236,0,0.6)] transition-all duration-200"
           />
         </div>

@@ -7,12 +7,14 @@ import { AppMode } from './types';
 import Simulator from './components/Simulator';
 import SphereApp from './components/SphereApp';
 import GroovesApp from './components/GroovesApp';
+import ShkivApp from './components/ShkivApp';
 
 export default function App() {
   const [activeMode, setActiveMode] = useState<AppMode>(AppMode.CALCULATOR);
   const [showSimulator, setShowSimulator] = useState(false);
   const [showSphere, setShowSphere] = useState(false);
   const [showGrooves, setShowGrooves] = useState(false);
+  const [showShkiv, setShowShkiv] = useState(false);
 
   // Handler for engineering module toggle
   const toggleEngineering = () => {
@@ -48,6 +50,13 @@ export default function App() {
         {showGrooves && (
           <div className="fixed inset-0 z-50 bg-white border-2 border-zinc-700 shadow-inner overflow-hidden flex flex-col p-4 animate-in fade-in duration-200">
             <GroovesApp onBack={() => setShowGrooves(false)} />
+          </div>
+        )}
+
+        {/* Fullscreen Shkiv Overlay */}
+        {showShkiv && (
+          <div className="fixed inset-0 z-50 bg-white border-2 border-zinc-700 shadow-inner overflow-hidden flex flex-col p-4 animate-in fade-in duration-200">
+            <ShkivApp onBack={() => setShowShkiv(false)} />
           </div>
         )}
 
@@ -121,6 +130,7 @@ export default function App() {
                   openSimulator={() => setShowSimulator(true)}
                   openSphere={() => setShowSphere(true)}
                   openGrooves={() => setShowGrooves(true)}
+                  openShkiv={() => setShowShkiv(true)}
                 />
               )}
               {activeMode === AppMode.G_CODE && <GCodeFrame />}
