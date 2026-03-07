@@ -153,7 +153,8 @@ export default function ShkivApp({ onBack }: ShkivAppProps) {
                 <span className="text-green-600">G1 X{(Math.round(Rx3 * 10000) / 10000)} Z{(Math.round((Rz3 + 0.03) * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-purple-600">G3 X{(Math.round((Rx4 + 0.05) * 10000) / 10000)} Z{(Math.round((Rz4 + 0.03) * 10000) / 10000)} R{(Math.round(p_r2 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-green-600">G1 Z{(Math.round((Rz5 + 0.03) * 10000) / 10000)} F{p_i}</span>{'\n'}
-                <span className="text-red-500">G0 X{(Math.round((Rx1 + 0.7) * 10000) / 10000)} Z{(Math.round((Rz8 + 0.67) * 10000) / 10000)}</span>{'\n'}
+                <span className="text-red-500">G0 X{(Math.round((Rx1 + 0.7) * 10000) / 10000)}</span>{'\n'}
+                <span className="text-red-500">Z{(Math.round((Rz8 + 0.67) * 10000) / 10000)}</span>{'\n'}
                 <span className="text-green-600">G1 X{(Math.round(Rx8 * 10000) / 10000)} Z{(Math.round((Rz8 - 0.03) * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-purple-600">G3 X{(Math.round(Rx7 * 10000) / 10000)} Z{(Math.round((Rz7 - 0.03) * 10000) / 10000)} R{(Math.round(p_r1 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-green-600">G1 X{(Math.round(Rx6 * 10000) / 10000)} Z{(Math.round((Rz6 - 0.03) * 10000) / 10000)} F{p_i}</span>{'\n'}
@@ -179,7 +180,8 @@ export default function ShkivApp({ onBack }: ShkivAppProps) {
                 <span className="text-green-600">G1 X{(Math.round(Rx3 * 10000) / 10000)} Z{(Math.round(Rz3 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-purple-600">G3 X{(Math.round(Rx4 * 10000) / 10000)} Z{(Math.round(Rz4 * 10000) / 10000)} R{(Math.round(p_r2 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-green-600">G1 Z{(Math.round(Rz5 * 10000) / 10000)} F{p_i}</span>{'\n'}
-                <span className="text-red-500">G0 X{(Math.round((Rx1 + 0.7) * 10000) / 10000)} Z{(Math.round((Rz8 + 0.7) * 10000) / 10000)}</span>{'\n'}
+                <span className="text-red-500">G0 X{(Math.round((Rx1 + 0.7) * 10000) / 10000)}</span>{'\n'}
+                <span className="text-red-500">Z{(Math.round((Rz8 + 0.7) * 10000) / 10000)}</span>{'\n'}
                 <span className="text-green-600">G1 X{(Math.round(Rx8 * 10000) / 10000)} Z{(Math.round(Rz8 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-purple-600">G3 X{(Math.round(Rx7 * 10000) / 10000)} Z{(Math.round(Rz7 * 10000) / 10000)} R{(Math.round(p_r1 * 10000) / 10000)} F{p_i}</span>{'\n'}
                 <span className="text-green-600">G1 X{(Math.round(Rx6 * 10000) / 10000)} Z{(Math.round(Rz6 * 10000) / 10000)} F{p_i}</span>{'\n'}
