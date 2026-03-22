@@ -30,7 +30,29 @@ export default function App() {
     <div className="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-8 font-sans selection:bg-fanuc-yellow selection:text-black">
 
       {/* Main CNC Chassis */}
-      <div className="bg-fanuc-yellow w-full max-w-5xl rounded-lg p-2 shadow-machine border-t border-white/20 relative">
+      <div className="bg-fanuc-yellow w-full max-w-5xl rounded-lg p-2 shadow-machine border-t border-white/20 relative overflow-hidden">
+
+        {/* Fullscreen Migration Overlay */}
+        <div className="absolute inset-0 z-[9999] bg-zinc-900/95 backdrop-blur-md flex flex-col items-center justify-center p-6 rounded-lg pointer-events-auto">
+          <div className="bg-zinc-800 border-4 border-zinc-700 p-8 rounded shadow-2xl flex flex-col items-center text-center max-w-lg w-full animate-in zoom-in duration-300">
+            <div className="w-16 h-16 bg-red-600 flex items-center justify-center rounded-full border-4 border-zinc-400 shadow-md mb-6 relative">
+              <span className="text-white font-black italic text-2xl transform -skew-x-12">F</span>
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-fanuc-yellow rounded-full animate-ping"></div>
+            </div>
+            <h2 className="text-zinc-100 text-2xl sm:text-3xl font-black uppercase tracking-wider mb-4">
+              СЕРВЕР ПЕРЕЕХАЛ
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base font-medium mb-8">
+              Приложение было перенесено на новый стабильный сервер. <br/>Перейдите по ссылке ниже, чтобы продолжить работу с новой версией.
+            </p>
+            <a 
+              href="https://g-core-cnc.ru"
+              className="w-full bg-fanuc-yellow hover:bg-yellow-400 text-black font-black uppercase tracking-[0.2em] py-4 px-6 rounded-lg border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all flex justify-center items-center shadow-lg"
+            >
+              ПЕРЕЙТИ НА НОВЫЙ САЙТ
+            </a>
+          </div>
+        </div>
 
         {/* Fullscreen Simulator Overlay */}
         {showSimulator && (
